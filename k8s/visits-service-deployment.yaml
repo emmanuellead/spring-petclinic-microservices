@@ -16,7 +16,7 @@ spec:
         app: visits-service
     spec:
       containers:
-        - image: springcommunity/spring-petclinic-visits-service
+        - image: springcommunity/spring-petclinic-visits-service:replaceImageTag
           imagePullPolicy: IfNotPresent
           name: visits-service
           ports:

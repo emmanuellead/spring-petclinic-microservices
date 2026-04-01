@@ -16,7 +16,7 @@ spec:
         app: vets-service
     spec:
       containers:
-        - image: springcommunity/spring-petclinic-vets-service
+        - image: springcommunity/spring-petclinic-vets-service:replaceImageTag
           imagePullPolicy: IfNotPresent
           name: vets-service
           ports:

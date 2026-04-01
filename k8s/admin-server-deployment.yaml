@@ -16,7 +16,7 @@ spec:
         app: admin-server
     spec:
       containers:
-        - image: springcommunity/spring-petclinic-admin-server
+        - image: springcommunity/spring-petclinic-admin-server:replaceImageTag
           imagePullPolicy: IfNotPresent
           name: admin-server
           ports:

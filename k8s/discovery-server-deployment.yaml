@@ -16,7 +16,7 @@ spec:
         app: discovery-server
     spec:
       containers:
-        - image: springcommunity/spring-petclinic-discovery-server
+        - image: springcommunity/spring-petclinic-discovery-server:replaceImageTag
           imagePullPolicy: IfNotPresent
           livenessProbe:
             exec:

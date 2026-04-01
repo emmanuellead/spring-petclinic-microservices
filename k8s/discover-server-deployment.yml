@@ -17,7 +17,7 @@ spec:
           app: discover-server
       spec:
         containers:
-          - image: springcommunity/spring-petclinic-discovery-server
+          - image: springcommunity/spring-petclinic-discovery-server:replaceImageTag
             name: discover-server
             port:
               containerPort: 8761

@@ -20,7 +20,7 @@ spec:
             - name: AZURE_OPENAI_ENDPOINT
             - name: AZURE_OPENAI_KEY
             - name: OPENAI_API_KEY
-          image: springcommunity/spring-petclinic-genai-service
+          image: springcommunity/spring-petclinic-genai-service:replaceImageTag
           imagePullPolicy: IfNotPresent
           name: genai-service
           ports:

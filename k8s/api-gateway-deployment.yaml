@@ -16,7 +16,7 @@ spec:
         app: api-gateway
     spec:
       containers:
-        - image: springcommunity/spring-petclinic-api-gateway
+        - image: springcommunity/spring-petclinic-api-gateway:replaceImageTag
           imagePullPolicy: IfNotPresent
           name: api-gateway
           ports:
