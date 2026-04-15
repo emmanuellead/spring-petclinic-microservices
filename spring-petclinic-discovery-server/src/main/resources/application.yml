@@ -3,6 +3,11 @@ spring:
     name: discovery-server
   config:
     import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888/}
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+# todo try to remove this
 
 # Avoid some debugging logs at startup
 logging:
@@ -19,3 +24,9 @@ spring:
       on-profile: docker
     import: configserver:http://config-server:8888
 
+logging:
+  level:
+    org.springframework.cloud.config: DEBUG
+    com.netflix.discovery: DEBUG
+
+debug: true
