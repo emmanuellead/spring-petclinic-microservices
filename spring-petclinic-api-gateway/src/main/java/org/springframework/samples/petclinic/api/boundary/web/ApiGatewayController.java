@@ -18,13 +18,17 @@ package org.springframework.samples.petclinic.api.boundary.web;
 import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreaker;
 import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreakerFactory;
 import org.springframework.samples.petclinic.api.application.CustomersServiceClient;
+import org.springframework.samples.petclinic.api.application.RatingsServiceClient;
+import org.springframework.samples.petclinic.api.application.VetsServiceClient;
 import org.springframework.samples.petclinic.api.application.VisitsServiceClient;
 import org.springframework.samples.petclinic.api.dto.OwnerDetails;
+import org.springframework.samples.petclinic.api.dto.VetDetails;
 import org.springframework.samples.petclinic.api.dto.Visits;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -41,13 +45,22 @@ public class ApiGatewayController {
 
     private final VisitsServiceClient visitsServiceClient;
 
+    private final VetsServiceClient vetsServiceClient;
+
+    private final RatingsServiceClient ratingsServiceClient;
+
     private final ReactiveCircuitBreakerFactory cbFactory;
+
 
     public ApiGatewayController(CustomersServiceClient customersServiceClient,
                                 VisitsServiceClient visitsServiceClient,
+                                VetsServiceClient vetsServiceClient,
+                                RatingsServiceClient ratingsServiceClient,
                                 ReactiveCircuitBreakerFactory cbFactory) {
         this.customersServiceClient = customersServiceClient;
         this.visitsServiceClient = visitsServiceClient;
+        this.vetsServiceClient = vetsServiceClient;
+        this.ratingsServiceClient = ratingsServiceClient;
         this.cbFactory = cbFactory;
     }
 
@@ -63,6 +76,14 @@ public class ApiGatewayController {
                     .map(addVisitsToOwner(owner))
             );
 
+    }
+
+    @GetMapping(value = "vets-with-ratings")
+    public Flux<VetDetails> getVetsWithRatings() {
+        return vetsServiceClient.getVets()
+            .flatMap(vet -> ratingsServiceClient.getAverageRatingForVet(vet.id())
+                .map(vet::withAverageRating)
+            );
     }
 
     private Function<Visits, OwnerDetails> addVisitsToOwner(OwnerDetails owner) {

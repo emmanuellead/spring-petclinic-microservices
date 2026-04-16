@@ -36,6 +36,11 @@ spring:
                 - Path=/api/customer/**
               filters:
                 - StripPrefix=2
+
+            - id: ratings-service
+              uri: lb://ratings-service
+              predicates:
+                - Path=/api/rating/**
             - id: genai-service
               uri: lb://genai-service
               predicates:
