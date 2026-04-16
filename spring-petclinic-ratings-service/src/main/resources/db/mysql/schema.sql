@@ -1,0 +1,15 @@
+CREATE DATABASE IF NOT EXISTS petclinic;
+
+USE petclinic;
+
+CREATE TABLE IF NOT EXISTS ratings (
+  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  visit_id INT(4) UNSIGNED NOT NULL,
+  vet_id INT(4) UNSIGNED NOT NULL,
+  stars TINYINT UNSIGNED NOT NULL  description VARCHAR(8192),
+  FOREIGN KEY (visit_id) REFERENCES visit(id),
+  CHECK (stars BETWEEN 1 AND 5)
+
+) engine=InnoDB;
+
+
