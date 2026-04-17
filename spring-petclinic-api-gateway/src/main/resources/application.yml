@@ -41,6 +41,14 @@ spring:
               uri: lb://ratings-service
               predicates:
                 - Path=/api/rating/**
+              filters:
+                  - StripPrefix=2
+            - id: inventory-service
+              uri: lb://inventory-service
+              predicates:
+                - Path=/api/inventory/**
+              filters:
+                  - StripPrefix=2
             - id: genai-service
               uri: lb://genai-service
               predicates:
