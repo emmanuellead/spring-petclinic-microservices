@@ -17,13 +17,8 @@ package org.springframework.samples.petclinic.api.boundary.web;
 
 import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreaker;
 import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreakerFactory;
-import org.springframework.samples.petclinic.api.application.CustomersServiceClient;
-import org.springframework.samples.petclinic.api.application.RatingsServiceClient;
-import org.springframework.samples.petclinic.api.application.VetsServiceClient;
-import org.springframework.samples.petclinic.api.application.VisitsServiceClient;
-import org.springframework.samples.petclinic.api.dto.OwnerDetails;
-import org.springframework.samples.petclinic.api.dto.VetDetails;
-import org.springframework.samples.petclinic.api.dto.Visits;
+import org.springframework.samples.petclinic.api.application.*;
+import org.springframework.samples.petclinic.api.dto.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,6 +43,8 @@ public class ApiGatewayController {
     private final VetsServiceClient vetsServiceClient;
 
     private final RatingsServiceClient ratingsServiceClient;
+    private final RecommenderServiceClient recommenderServiceClient;
+    private final InventoryServiceClient inventoryServiceClient;
 
     private final ReactiveCircuitBreakerFactory cbFactory;
 
@@ -55,12 +52,14 @@ public class ApiGatewayController {
     public ApiGatewayController(CustomersServiceClient customersServiceClient,
                                 VisitsServiceClient visitsServiceClient,
                                 VetsServiceClient vetsServiceClient,
-                                RatingsServiceClient ratingsServiceClient,
+                                RatingsServiceClient ratingsServiceClient, RecommenderServiceClient recommenderServiceClient, InventoryServiceClient inventoryServiceClient,
                                 ReactiveCircuitBreakerFactory cbFactory) {
         this.customersServiceClient = customersServiceClient;
         this.visitsServiceClient = visitsServiceClient;
         this.vetsServiceClient = vetsServiceClient;
         this.ratingsServiceClient = ratingsServiceClient;
+        this.recommenderServiceClient = recommenderServiceClient;
+        this.inventoryServiceClient = inventoryServiceClient;
         this.cbFactory = cbFactory;
     }
 
@@ -75,6 +74,24 @@ public class ApiGatewayController {
                     })
                     .map(addVisitsToOwner(owner))
             );
+
+    }
+
+    @GetMapping(value="owners/{ownerId}/suggest")
+    public Flux<ProductDetails> getOwnerProductSuggest(final @PathVariable int ownerId) {
+        return Mono.zip(
+            customersServiceClient.getOwner(ownerId),
+            inventoryServiceClient.getProducts().collectList()
+        ).flatMapMany(tuple-> {
+            OwnerDetails owner = tuple.getT1();
+            List<ProductDetails>products = tuple.getT2();
+            List<PetType> petTypes = owner.pets().stream().map(PetDetails::type)
+                .distinct().toList();
+            RecommendationRequest request = new RecommendationRequest(petTypes, products);
+            return recommenderServiceClient.getRecommendationsForOwner(request);
+
+            }
+        );
 
     }
 

@@ -1,10 +1,8 @@
 package org.springframework.samples.petclinic.recommender.web;
 
-import jakarta.validation.Valid;
 import org.springframework.samples.petclinic.recommender.dto.PetType;
 import org.springframework.samples.petclinic.recommender.dto.Product;
 import org.springframework.samples.petclinic.recommender.dto.RecommendationRequest;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

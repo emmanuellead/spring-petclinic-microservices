@@ -1,15 +1,13 @@
 package org.springframework.samples.petclinic.api.boundary.web;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webflux.test.autoconfigure.WebFluxTest;
 import org.springframework.cloud.circuitbreaker.resilience4j.ReactiveResilience4JAutoConfiguration;
 import org.springframework.context.annotation.Import;
-import org.springframework.samples.petclinic.api.application.CustomersServiceClient;
-import org.springframework.samples.petclinic.api.application.RatingsServiceClient;
-import org.springframework.samples.petclinic.api.application.VetsServiceClient;
-import org.springframework.samples.petclinic.api.application.VisitsServiceClient;
+import org.springframework.samples.petclinic.api.application.*;
 import org.springframework.samples.petclinic.api.dto.OwnerDetails;
 import org.springframework.samples.petclinic.api.dto.PetDetails;
 import org.springframework.samples.petclinic.api.dto.VisitDetails;
@@ -38,6 +36,11 @@ class ApiGatewayControllerTest {
 
     @MockitoBean
     private RatingsServiceClient ratingsServiceClient;
+    @MockitoBean
+    private RecommenderServiceClient recommenderServiceClient;
+
+    @MockitoBean
+    private InventoryServiceClient inventoryServiceClient;
 
     @Autowired
     private WebTestClient client;
