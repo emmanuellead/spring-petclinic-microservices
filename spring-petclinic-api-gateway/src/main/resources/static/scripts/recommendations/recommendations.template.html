@@ -1,0 +1,18 @@
+<div ng-if="$ctrl.recommendations.length > 0">
+    <br/>
+    <h2>Recommended Products for Your Pets</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tr ng-repeat="product in $ctrl.recommendations">
+            <td>{{product.name}}</td>
+            <td>{{product.description}}</td>
+            <td>{{product.price | currency}}</td>
+        </tr>
+    </table>
+</div>
