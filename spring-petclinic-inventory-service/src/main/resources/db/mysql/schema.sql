@@ -1,0 +1,13 @@
+CREATE DATABASE IF NOT EXISTS petclinic;
+
+USE petclinic;
+
+CREATE TABLE IF NOT EXISTS products (
+  id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(30) NOT NULL UNIQUE,
+  description VARCHAR(8192) ,
+  price DECIMAL(10,2) NOT NULL,
+  stock_quantity INT(4) UNSIGNED NOT NULL
+
+) engine=InnoDB;
+

@@ -1,0 +1,11 @@
+DROP TABLE products IF EXISTS;
+
+
+CREATE TABLE products (
+  id  INTEGER IDENTITY PRIMARY KEY,
+  name VARCHAR(30) NOT NULL UNIQUE,
+  description VARCHAR(8192),
+  price DECIMAL(10,2) NOT NULL,
+  stock_quantity INTEGER NOT NULL
+);
+
