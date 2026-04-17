@@ -26,6 +26,7 @@
         <module>spring-petclinic-api-gateway</module>
         <module>spring-petclinic-ratings-service</module>
         <module>spring-petclinic-inventory-service</module>
+        <module>spring-petclinic-recommender-service</module>
     </modules>
 
     <properties>
