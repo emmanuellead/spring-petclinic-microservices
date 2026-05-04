@@ -9,7 +9,6 @@ import org.springframework.samples.petclinic.ratings.model.RatingRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequestMapping("/ratings")
 @RestController
@@ -38,12 +37,16 @@ public class RatingResource {
     @GetMapping("/stats/vet/{vetId}")
     public Double getAverageRatingForVet(@PathVariable("vetId") int vetId) {
         List<Rating> ratings = ratingRepository.findByVetId(vetId);
-        log.info("Average rating for vet {} is {}", vetId, ratings.stream().map(Rating::getStars).collect(Collectors.toList()));
         return ratings.stream()
             .filter(r -> r.getStars() != null)
             .mapToInt(Rating::getStars)
             .average()
             .orElse(0.0);
+    }
+
+    @GetMapping("/vet/{vetId}")
+    public List<Rating> getRatingsForVet(@PathVariable("vetId") int vetId) {
+        return  ratingRepository.findByVetId(vetId);
     }
 }
 //@Timed usage cache benefit

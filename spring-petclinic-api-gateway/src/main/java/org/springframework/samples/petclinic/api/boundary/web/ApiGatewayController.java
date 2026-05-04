@@ -103,6 +103,14 @@ public class ApiGatewayController {
             );
     }
 
+    @GetMapping(value = "vets/{vetId}")
+    public Mono<VetWithRatings> getVetDetails(final @PathVariable int vetId) {
+        return Mono.zip(
+            vetsServiceClient.getVet(vetId),
+            ratingsServiceClient.getRatingsForVet(vetId).collectList()
+        ).map(tuple -> new VetWithRatings(tuple.getT1(), tuple.getT2()));
+    }
+
     private Function<Visits, OwnerDetails> addVisitsToOwner(OwnerDetails owner) {
         return visits -> {
             owner.pets()

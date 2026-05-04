@@ -1,0 +1,30 @@
+<h2>Vet Information</h2>
+
+<table class="table table-striped">
+    <tr>
+        <th class="col-sm-3">Name</th>
+        <td><b>{{$ctrl.vet.firstName}} {{$ctrl.vet.lastName}}</b></td>
+    </tr>
+    <tr>
+        <th>Specialties</th>
+        <td><span ng-repeat="specialty in $ctrl.vet.specialties">{{specialty.name + ' '}}</span></td>
+    </tr>
+</table>
+
+<h2>Ratings</h2>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Stars</th>
+        <th>Comment</th>
+    </tr>
+    </thead>
+    <tr ng-repeat="rating in $ctrl.ratings">
+        <td>{{rating.stars}}</td>
+        <td>{{rating.comment}}</td>
+    </tr>
+</table>
+
+
+
